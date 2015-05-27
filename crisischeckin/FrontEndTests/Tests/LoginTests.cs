@@ -1,20 +1,28 @@
-﻿using FrontEndTests.Helpers;
+﻿using System.Drawing;
+using System.Windows.Forms;
+using FrontEndTests.Helpers;
 using FrontEndTests.PageManagers;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
 
 namespace FrontEndTests.Tests
 {
-    [TestFixture(Category = Constants.FrontEnd)]
-    internal class LoginTests
+    [TestFixture(typeof (ChromeDriver), Category = Constants.FrontEnd)]
+    [TestFixture(typeof (InternetExplorerDriver), Category = Constants.FrontEnd)]
+    internal class LoginTests<TDriver> where TDriver : IWebDriver, new()
     {
         private IWebDriver _driver;
 
         [TestFixtureSetUp]
         public void FixtureSetup()
         {
-            _driver = new ChromeDriver();
+            var screen = SystemInformation.VirtualScreen;
+
+            _driver = new TDriver();
+            _driver.Manage().Window.Size = new Size(screen.Width/2, screen.Height);
+            _driver.Manage().Window.Position = new Point(3*screen.Width/2, 0);
         }
 
         [TestFixtureTearDown]
@@ -24,11 +32,11 @@ namespace FrontEndTests.Tests
             _driver.Quit();
         }
 
-
-        [TearDown]
-        public void TearDown()
+        [SetUp]
+        public void SetUp()
         {
             _driver.Manage().Cookies.DeleteAllCookies();
+            new NavigationBarManager(_driver).LogOut(true);
         }
 
         [Test]

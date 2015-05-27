@@ -13,7 +13,7 @@ namespace FrontEndTests.PageManagers
         private const string NavBarCssSelector = "#nav-bar";
         private const string HomeButtonSCssSelector = "#home";
         private const string ListByDisasterButtonCssSelector = "#list-by-disaster";
-        private const string LogoutButtonCssSelector = "#logout";
+        private const string LogoutButtonCssSelector = "#log-off";
 
         public NavigationBarManager(IWebDriver driver, string username = null)
         {
@@ -26,17 +26,30 @@ namespace FrontEndTests.PageManagers
             var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(2));
 
             var navBar = wait.Until(driver => driver.FindElement(By.CssSelector(NavBarCssSelector)));
-           _homeButton =
+            _homeButton =
                 wait.Until(driver => driver.FindElement(By.CssSelector(HomeButtonSCssSelector)));
-
-            _logoutButton =
-                wait.Until(driver => driver.FindElement(By.CssSelector(LogoutButtonCssSelector)));
         }
 
-        public HomePageManager LogOut()
+        public HomePageManager LogOut(bool ignoreElementnotPresent = false)
         {
-            _logoutButton.Click();
-            return new HomePageManager(_driver);
+            try
+            {
+                var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(2));
+                _logoutButton =
+                    wait.Until(driver => driver.FindElement(By.CssSelector(LogoutButtonCssSelector)));
+                _logoutButton.Click();
+            }
+            catch (WebDriverTimeoutException)
+            {
+                if (!ignoreElementnotPresent)
+                {
+                    throw;
+                }
+            }
+
+            var homePageManager = new HomePageManager(_driver);
+            homePageManager.NavigateToAsUnauthenticated();
+            return homePageManager;
         }
     }
 }

@@ -7,7 +7,7 @@
         }
         else
         {
-            <li><a href="/Account/Logoff"> Logout @User.Identity.Name</a></li>
+            <li><a href="/Account/Logoff" id="log-off"> Logout @User.Identity.Name</a></li>
 
             if (!User.Identity.Name.ToLower().Equals("administrator"))
             {
