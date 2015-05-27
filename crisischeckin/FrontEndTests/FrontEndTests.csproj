@@ -62,9 +62,12 @@
     <Compile Include="Helpers\ValidCredentials.cs" />
     <Compile Include="PageManagers\AccountLoginManager.cs" />
     <Compile Include="PageManagers\DisasterListManager.cs" />
+    <Compile Include="PageManagers\ElementManagers\IButton.cs" />
+    <Compile Include="PageManagers\ElementManagers\LogOutButton.cs" />
     <Compile Include="PageManagers\HomePageManager.cs" />
     <Compile Include="PageManagers\NavigationBarManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PageManagers\ElementManagers\IClickable.cs" />
     <Compile Include="Tests\InvalidLoginTests.cs" />
     <Compile Include="Tests\LoginTests.cs" />
   </ItemGroup>
@@ -81,6 +84,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup Label="DownloadIEDriverBuildTask">
     <CoreBuildDependsOn>DownloadIEDriver;$(CoreBuildDependsOn)</CoreBuildDependsOn>

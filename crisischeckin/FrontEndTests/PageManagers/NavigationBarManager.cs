@@ -1,4 +1,5 @@
 ﻿using System;
+using FrontEndTests.PageManagers.ElementManagers;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -13,7 +14,7 @@ namespace FrontEndTests.PageManagers
         private const string NavBarCssSelector = "#nav-bar";
         private const string HomeButtonSCssSelector = "#home";
         private const string ListByDisasterButtonCssSelector = "#list-by-disaster";
-        private const string LogoutButtonCssSelector = "#log-off";
+        private const string LogoutButtonCssSelector = "#log-out";
 
         public NavigationBarManager(IWebDriver driver, string username = null)
         {
@@ -34,10 +35,10 @@ namespace FrontEndTests.PageManagers
         {
             try
             {
-                var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(2));
-                _logoutButton =
-                    wait.Until(driver => driver.FindElement(By.CssSelector(LogoutButtonCssSelector)));
-                _logoutButton.Click();
+                var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(1));
+
+                var logoutButton = new LogOutButton(_driver, wait);
+                logoutButton.Click();
             }
             catch (WebDriverTimeoutException)
             {

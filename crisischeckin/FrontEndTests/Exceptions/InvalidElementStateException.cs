@@ -1,9 +1,8 @@
-﻿using System;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 
 namespace FrontEndTests.Exceptions
 {
-    public class InvalidElementStateException : Exception
+    public class InvalidElementStateException : OpenQA.Selenium.InvalidElementStateException
     {
         public InvalidElementStateException(IWebElement element, string expectedState, string actualState)
             : base(
