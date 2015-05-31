@@ -53,34 +53,55 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exceptions\InvalidElementStateException.cs" />
     <Compile Include="Exceptions\InvalidPageStateException.cs" />
+    <Compile Include="Exceptions\MultipleAssertionException.cs" />
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\CredentialsStore.cs" />
     <Compile Include="Helpers\ICredentials.cs" />
     <Compile Include="Helpers\IValidCredentials.cs" />
     <Compile Include="Helpers\ValidCredentials.cs" />
+    <Compile Include="Helpers\WebDriverFactory.cs" />
     <Compile Include="PageManagers\AccountLoginManager.cs" />
     <Compile Include="PageManagers\DisasterListManager.cs" />
+    <Compile Include="PageManagers\ElementManagers\ClickableWebElementState.cs" />
+    <Compile Include="PageManagers\ElementManagers\IBasicElement.cs" />
     <Compile Include="PageManagers\ElementManagers\IButton.cs" />
-    <Compile Include="PageManagers\ElementManagers\LogOutButton.cs" />
+    <Compile Include="PageManagers\ElementManagers\IEnabledElement.cs" />
+    <Compile Include="PageManagers\ElementManagers\ILabel.cs" />
+    <Compile Include="PageManagers\ElementManagers\INavigationBarState.cs" />
+    <Compile Include="PageManagers\ElementManagers\IVisableElement.cs" />
+    <Compile Include="PageManagers\ElementManagers\IWebElementState.cs" />
+    <Compile Include="PageManagers\ElementManagers\LogInElements\LogInValidationErrors.cs" />
+    <Compile Include="PageManagers\ElementManagers\NavigationBar\HomeButton.cs" />
+    <Compile Include="PageManagers\ElementManagers\NavigationBar\LogOutButton.cs" />
+    <Compile Include="PageManagers\ElementManagers\NavigationBar\NavigationBarStates.cs" />
+    <Compile Include="PageManagers\ElementManagers\UnauthenticatedNavigationBarState.cs" />
     <Compile Include="PageManagers\HomePageManager.cs" />
+    <Compile Include="PageManagers\InvalidUserPageManager.cs" />
     <Compile Include="PageManagers\NavigationBarManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PageManagers\ElementManagers\IClickable.cs" />
+    <Compile Include="PageManagers\ElementManagers\IClickableElement.cs" />
     <Compile Include="Tests\InvalidLoginTests.cs" />
     <Compile Include="Tests\LoginTests.cs" />
+    <Compile Include="Tests\NavigationBarTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\packages\PhantomJS.2.0.0\tools\phantomjs\phantomjs.exe">
+      <Link>phantomjs.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\packages\Selenium.WebDriver.ChromeDriver.2.15.0.0\driver\chromedriver.exe">
       <Link>chromedriver.exe</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\packages\Selenium.WebDriver.IEDriver.2.45.0.1\content\IEDriverServer.exe">
       <Link>IEDriverServer.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -5,7 +5,7 @@ using OpenQA.Selenium.Support.UI;
 
 namespace FrontEndTests.PageManagers
 {
-    public class AccountLoginManager
+    public class AccountLoginManager : INavigationBar
     {
         private readonly IWebDriver _driver;
         private const string LoginFormCssSelector = "#account-login-form";
@@ -16,6 +16,15 @@ namespace FrontEndTests.PageManagers
         private IWebElement _loginButton;
         private IWebElement _usernameField;
         private IWebElement _passwordField;
+
+        public NavigationBarManager NavigationBar
+        {
+            get
+            {
+                var navigationBarManager = new NavigationBarManager(_driver);
+                return navigationBarManager;
+            }
+        }
 
         public AccountLoginManager(IWebDriver driver)
         {
@@ -47,9 +56,10 @@ namespace FrontEndTests.PageManagers
             _loginButton.Click();
         }
 
-        public void LogInInvalidUser()
+        public InvalidUserPageManager LogInInvalidUser()
         {
             LogInWithDetails(CredentialsStore.UnregisteredUser);
+            return new InvalidUserPageManager(_driver);
         }
     }
 }

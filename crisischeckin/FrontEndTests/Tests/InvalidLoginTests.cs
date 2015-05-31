@@ -1,17 +1,37 @@
-﻿using NUnit.Framework;
+﻿using FrontEndTests.Helpers;
+using FrontEndTests.PageManagers;
+using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
+using OpenQA.Selenium.PhantomJS;
 
 namespace FrontEndTests.Tests
 {
-    [TestFixture]
-    internal class InvalidLoginTests
+    [TestFixture(typeof (ChromeDriver), Category = Constants.FrontEnd)]
+    [TestFixture(typeof (InternetExplorerDriver), Category = Constants.FrontEnd)]
+    [TestFixture(typeof (PhantomJSDriver), Category = Constants.PhantomJsDriver)]
+    public class InvalidLoginTests<TDriver> where TDriver : IWebDriver, new()
     {
-        private IWebDriver _driver;
+        private readonly IWebDriver _driver;
 
-        [TestFixtureSetUp]
-        private void TestFixtureSetUp()
+        public InvalidLoginTests()
         {
-            
+            _driver = new WebDriverFactory().Create<TDriver>();
+        }
+
+        [TestFixtureTearDown]
+        public void TestFixtureTearDown()
+        {
+            _driver.Quit();
+            _driver.Close();
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
+            _driver.Manage().Cookies.DeleteAllCookies();
+            new NavigationBarManager(_driver).LogOut(true);
         }
     }
 }

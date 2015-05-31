@@ -1,6 +1,4 @@
-﻿@using System.Web.Optimization
-@using crisicheckinweb.Controllers
-@{
+﻿@{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
@@ -17,7 +15,7 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                @Html.MenuItem("Home (Disaster List)", "List", "Disaster")
+                @Html.MenuItem("Home (Disaster List)", "List", "Disaster", null, new {id = "home"})
                 @Html.MenuItem("View Volunteers", "ListbyDisaster", "Volunteer")
             </ul>
             @Html.Partial("_LoginStatus")
@@ -30,9 +28,9 @@
 </div>
 
 @section scripts {
-    @RenderSection("scripts", required: false)
+    @RenderSection("scripts", false)
 }
 
 @section styles {
-    @RenderSection("styles", required: false)
+    @RenderSection("styles", false)
 }

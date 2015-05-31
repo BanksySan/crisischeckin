@@ -1,5 +1,8 @@
-﻿using FrontEndTests.Helpers;
+﻿using System.Linq;
+using FrontEndTests.Exceptions;
+using FrontEndTests.Helpers;
 using FrontEndTests.PageManagers;
+using FrontEndTests.PageManagers.ElementManagers;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -11,18 +14,17 @@ namespace FrontEndTests.Tests
     [TestFixture(typeof (ChromeDriver), Category = Constants.ChromeDriver)]
     [TestFixture(typeof (InternetExplorerDriver), Category = Constants.IeDriver)]
     [TestFixture(typeof (PhantomJSDriver), Category = Constants.PhantomJsDriver)]
-    internal class LoginTests<TDriver> where TDriver : IWebDriver, new()
+    public class NavigationBarTests<TDriver> where TDriver : IWebDriver, new()
     {
-        private IWebDriver _driver;
+        private readonly IWebDriver _driver;
 
-        [TestFixtureSetUp]
-        public void FixtureSetup()
+        public NavigationBarTests()
         {
             _driver = new WebDriverFactory().Create<TDriver>();
         }
 
         [TestFixtureTearDown]
-        public void FixtureTearDown()
+        public void TestFixtureTearDown()
         {
             _driver.Close();
             _driver.Quit();
@@ -36,22 +38,18 @@ namespace FrontEndTests.Tests
         }
 
         [Test]
-        public void Administrator_logging_is_redirected_to_disaster_list()
+        public void Unauthenticated_user_only_shown_home_link()
         {
             var homePage = new HomePageManager(_driver);
+            var logInPage = homePage.NavigateToAsUnauthenticated();
+            var navigationBar = logInPage.NavigationBar;
+            var assertionErrors = navigationBar.AssertState(NavigationBarStates.Unauthenticated);
 
-            var loginPage = homePage.NavigateToAsUnauthenticated();
-            loginPage.LogInAdministrator();
-        }
-
-        [Test]
-        public void Invalid_user_sees_error_message()
-        {
-            var homepage = new HomePageManager(_driver);
-            var loginPage = homepage.NavigateToAsUnauthenticated();
-            var invalidUserPageManager = loginPage.LogInInvalidUser();
-            Assert.That(invalidUserPageManager.ValidationErrors,
-                Is.EqualTo(@"The username/email or password provided is incorrect."));
+            if (assertionErrors.Any())
+            {
+                throw new MultipleAssertionException(
+                    "Unexpected state of Navigation Bar when user is unauthenticated.", assertionErrors);
+            }
         }
     }
 }
