@@ -51,5 +51,19 @@ namespace FrontEndTests.Tests
                     "Unexpected state of Navigation Bar when user is unauthenticated.", assertionErrors);
             }
         }
+
+        public void Authenticated_as_administrator_shown_correct_links()
+        {
+            var homePage = new HomePageManager(_driver);
+            var logInPage = homePage.NavigateToAsUnauthenticated();
+            var navigationBar = logInPage.NavigationBar;
+            var assertionErrors = navigationBar.AssertState(NavigationBarStates.Unauthenticated);
+
+            if (assertionErrors.Any())
+            {
+                throw new MultipleAssertionException(
+                    "Unexpected state of Navigation Bar when user is unauthenticated.", assertionErrors);
+            }
+        }
     }
 }
